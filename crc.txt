@@ -1,0 +1,48 @@
+def xor(dividend, divisor):
+    result = []
+    for i in range(len(divisor)):
+        result.append(str(int(dividend[i]) ^ int(divisor[i])))
+    return ''.join(result)
+
+
+def crc_generator(dataword, generator):
+    dataword = dataword + '0' * (len(generator) - 1)
+
+    dividend = list(dataword)
+    divisor = list(generator)
+
+    for i in range(len(dividend) - (len(divisor) - 1)):
+        if dividend[i] == '1':
+            dividend_section = ''.join(dividend[i:i+len(divisor)])
+            res_xor = xor(dividend_section, divisor)
+            dividend[i:i+len(divisor)] = list(res_xor)
+
+    crc = ''.join(dividend[-(len(generator) - 1):])
+    return crc
+
+
+def generate_transmitted_data(dataword, generator):
+    generated_crc = crc_generator(dataword, generator)
+    transmitted_data = dataword + generated_crc
+    return transmitted_data, generated_crc
+
+def error_detection(dataword, generator):
+    final_crc = crc_generator(dataword, generator)
+
+    if final_crc == '0' * (len(generator) - 1):
+        print("\nNo error detected.")
+    else:
+        print("\nError detected!")
+
+
+dataword = input("Enter the dataword: ")
+generator = input("Enter the generator polynomial: ")
+
+transmitted_data, crc = generate_transmitted_data(dataword, generator)
+
+print("\nOriginal Dataword:", dataword)
+print("Transmitted Dataword:", transmitted_data)
+print("CRC Generated:", crc)
+
+received_data = input("\nEnter the received dataword for error detection: ")
+error_detection(received_data, generator)
