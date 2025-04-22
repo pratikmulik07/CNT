@@ -1,0 +1,82 @@
+ Display Filters in Wireshark (used after capturing) 
+1. ip.addr == 192.168.1.1 
+ This filter shows all packets where the given IP is either the source or destination. 
+ 
+2. ip.src == 192.168.1.1 
+ This displays only packets sent from the specific IP address. 
+ 
+3. ip.dst == 192.168.1.1 
+ This displays only packets to the specific IP address. 
+ 
+4. tcp 
+ Shows only packets using the TCP protocol, filtering out UDP, ICMP, etc. 
+ 
+5. udp 
+ Displays only UDP protocol packets. 
+ 
+6. icmp 
+ Shows only ICMP packets, typically used for ping and network diagnostics. 
+ 
+7. http 
+ Displays only packets that are part of HTTP communications (usually port 80). 
+ 
+8. tcp.port == 443 
+ Filters packets sent over HTTPS (secure web traffic). 
+ 
+9. tcp.flags.syn == 1 
+ Shows TCP packets with the SYN flag, used when a connection is being initiated. 
+ 
+10. tcp.flags.rst == 1 
+ Filters packets with the Reset (RST) flag set — usually part of abnormal connection 
+termination. 
+ 
+11. tcp.flags.psh == 1 
+ Displays packets with the Push (PSH) flag, indicating data should be pushed to the 
+receiving application. 
+ 
+12. dns 
+ Shows only packets related to the Domain Name System (typically on port 53). 
+ 
+13. eth.addr == aa:bb:cc:dd:ee:ff 
+ Filters all packets where the specified MAC address appears in either source or 
+destination. 
+ 
+14. tcp.analysis.retransmission 
+ Displays retransmitted TCP packets, helpful in identifying packet loss or delays. 
+ 
+15. tcp.analysis.lost_segment 
+ Shows lost TCP segments, which often indicate unreliable connections or congestion. 
+ 
+ 
+Capture Filters in Wireshark (used before starting capture) 
+16. host 172.18.5.4 
+ Captures all traffic to and from a specific IP address. 
+ 
+17. net 192.168.0.0/24 
+ Captures traffic from a whole subnet — in this case, a typical local network. 
+ 
+18. port 53 
+ Captures only DNS traffic, which resolves domain names into IPs. 
+ 
+19. tcp port 80 
+ Captures only HTTP traffic, commonly used for unencrypted web access. 
+ 
+20. tcp port 443 
+ Captures only HTTPS traffic, commonly used for secure websites. 
+ 
+21. icmp 
+ Captures only ICMP packets like ping requests and replies. 
+ 
+22. not arp and not port 53 
+ Captures all traffic except ARP and DNS packets. 
+ 
+23. ip 
+ Captures only IPv4 traffic, excluding ARP, IPv6, etc. 
+ 
+24. not broadcast and not multicast 
+Captures only unicast traffic, ignoring broadcasts and multicasts often used for device 
+discovery. 
+  
+25. tcp and (host youtube.com or host www.youtube.com) 
+Captures all TCP traffic to or from YouTube, which is useful while logging into a 
+YouTube account.
