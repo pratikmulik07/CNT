@@ -1,0 +1,24 @@
+i. Verify and Troubleshoot Network Configuration and Connectivity
+
+Task	Command	Device	Purpose
+✅ Check IP settings	ipconfig	PC	View IP address, subnet mask, and gateway
+✅ Test connectivity	ping [destination IP]	PC / Router	Check if another device is reachable
+✅ View routing table	show ip route	Router	Display known routes (static/dynamic)
+✅ Check interface status	show ip interface brief	Router / Switch	Verify interface status and IPs
+✅ Check interface details	show interfaces	Router / Switch	Check bandwidth, errors, and status
+✅ Trace path to host	tracert [destination IP]	PC	View hops taken to reach a host
+🌐 ii. Route Discovery, Hostname, and Address Resolution
+
+Task	Command	Device	Purpose
+🔍 View active routing protocol	show ip protocols	Router	Display dynamic routing protocols (e.g., RIP, OSPF)
+🔍 Debug route updates (RIP)	debug ip rip	Router	Monitor RIP updates in real time
+📡 View ARP cache	arp -a	PC	Show IP-to-MAC address mappings
+🌐 Hostname to IP resolution	nslookup [hostname]	PC	Query DNS to resolve domain names
+📘 View DNS-resolved hosts	show hosts	Router	Show cached hostnames and IPs
+🧭 View connected devices	show cdp neighbors	Router / Switch	Show neighboring Cisco devices
+🔍 iii. View and Analyze Active Network Connections and Ports
+
+Task	Command	Device	Purpose
+🌐 Show open connections	netstat	PC	View all active connections
+🔍 View ports and states	netstat -an	PC	Show detailed list of ports and their status
+📊 View protocol statistics	netstat -s	PC	See packet counts per protocol (TCP, UDP, etc.)
