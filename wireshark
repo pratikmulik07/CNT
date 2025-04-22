@@ -1,82 +1,174 @@
- Display Filters in Wireshark (used after capturing) 
-1. ip.addr == 192.168.1.1 
- This filter shows all packets where the given IP is either the source or destination. 
- 
-2. ip.src == 192.168.1.1 
- This displays only packets sent from the specific IP address. 
- 
-3. ip.dst == 192.168.1.1 
- This displays only packets to the specific IP address. 
- 
-4. tcp 
- Shows only packets using the TCP protocol, filtering out UDP, ICMP, etc. 
- 
-5. udp 
- Displays only UDP protocol packets. 
- 
-6. icmp 
- Shows only ICMP packets, typically used for ping and network diagnostics. 
- 
-7. http 
- Displays only packets that are part of HTTP communications (usually port 80). 
- 
-8. tcp.port == 443 
- Filters packets sent over HTTPS (secure web traffic). 
- 
-9. tcp.flags.syn == 1 
- Shows TCP packets with the SYN flag, used when a connection is being initiated. 
- 
-10. tcp.flags.rst == 1 
- Filters packets with the Reset (RST) flag set — usually part of abnormal connection 
-termination. 
- 
-11. tcp.flags.psh == 1 
- Displays packets with the Push (PSH) flag, indicating data should be pushed to the 
-receiving application. 
- 
-12. dns 
- Shows only packets related to the Domain Name System (typically on port 53). 
- 
-13. eth.addr == aa:bb:cc:dd:ee:ff 
- Filters all packets where the specified MAC address appears in either source or 
-destination. 
- 
-14. tcp.analysis.retransmission 
- Displays retransmitted TCP packets, helpful in identifying packet loss or delays. 
- 
-15. tcp.analysis.lost_segment 
- Shows lost TCP segments, which often indicate unreliable connections or congestion. 
- 
- 
-Capture Filters in Wireshark (used before starting capture) 
-16. host 172.18.5.4 
- Captures all traffic to and from a specific IP address. 
- 
-17. net 192.168.0.0/24 
- Captures traffic from a whole subnet — in this case, a typical local network. 
- 
-18. port 53 
- Captures only DNS traffic, which resolves domain names into IPs. 
- 
-19. tcp port 80 
- Captures only HTTP traffic, commonly used for unencrypted web access. 
- 
-20. tcp port 443 
- Captures only HTTPS traffic, commonly used for secure websites. 
- 
-21. icmp 
- Captures only ICMP packets like ping requests and replies. 
- 
-22. not arp and not port 53 
- Captures all traffic except ARP and DNS packets. 
- 
-23. ip 
- Captures only IPv4 traffic, excluding ARP, IPv6, etc. 
- 
-24. not broadcast and not multicast 
-Captures only unicast traffic, ignoring broadcasts and multicasts often used for device 
-discovery. 
-  
-25. tcp and (host youtube.com or host www.youtube.com) 
-Captures all TCP traffic to or from YouTube, which is useful while logging into a 
-YouTube account.
+1. **Monitor TCP and HTTP Traffic During Login (e.g., Facebook):**
+
+- Capture HTTP traffic:
+  http
+
+- Capture HTTPS traffic (encrypted traffic):
+  tcp.port == 443
+
+- Capture TCP traffic with SYN flag (connection setup):
+  tcp.flags.syn == 1
+
+- Capture TCP traffic with PSH flag (data push):
+  tcp.flags.push == 1
+
+- Capture HTTP traffic for a specific website (e.g., Facebook):
+  http.host == "www.facebook.com"
+
+
+2. **DNS Spoofing Attack Detection:**
+
+- Capture all DNS queries:
+  dns
+
+- Capture DNS queries for a specific domain (e.g., example.com):
+  dns.qry.name == "example.com"
+
+- Capture DNS responses from a specific DNS server (IP: 192.168.1.1):
+  dns && ip.addr == 192.168.1.1
+
+- Capture DNS responses with different IP resolutions (potential spoofing):
+  dns.resp.addr != 192.168.1.1
+
+
+3. **Game Server Traffic Analysis (TCP/UDP, Packet Sizes, Round-trip Delays):**
+
+- Capture TCP packets (game server traffic often uses TCP):
+  tcp
+
+- Capture UDP packets (common for gaming and real-time traffic):
+  udp
+
+- Capture packets larger than a specific size (e.g., 1000 bytes):
+  frame.len > 1000
+
+- Measure round-trip delays:
+  frame.time_delta
+
+- Capture TCP traffic based on source and destination ports:
+  tcp.port == 12345  # Replace with game server port number
+
+
+4. **General Website Login Analysis:**
+
+- Capture HTTP traffic (to analyze the login details):
+  http
+
+- Capture HTTPS traffic (for secure login):
+  tcp.port == 443
+
+- Capture traffic between the client and server (using IP addresses):
+  ip.addr == 192.168.1.2  # Replace with the server IP address
+
+
+5. **General Capture Filters for Various Protocols:**
+
+- Capture DNS queries and responses:
+  dns
+
+- Capture HTTP traffic:
+  http
+
+- Capture DNS traffic for a specific domain:
+  dns.qry.name == "example.com"
+
+- Capture TCP traffic:
+  tcp
+
+- Capture UDP traffic:
+  udp
+
+- Capture packets with a large frame size:
+  frame.len > 1000  # Show packets larger than 1000 bytes
+
+- Capture TCP traffic with SYN flag (connection initiation):
+  tcp.flags.syn == 1
+
+- Capture TCP traffic with PSH flag (data transmission):
+  tcp.flags.push == 1
+
+- Capture traffic for a specific port (e.g., HTTP port 80):
+  tcp.port == 80  # For HTTP traffic
+
+- Capture traffic from a specific IP address (e.g., 192.168.1.1):
+  ip.addr == 192.168.1.1  # Replace with the desired IP address
+
+- Capture packets between client and server (e.g., using a specific IP pair):
+  ip.src == 192.168.1.2 && ip.dst == 192.168.1.3  # Replace with relevant IPs
+
+
+6. **Filters to Isolate Specific Traffic (Useful for Analysis):**
+
+- Capture traffic from a specific IP address (e.g., 192.168.1.2):
+  ip.addr == 192.168.1.2
+
+- Capture traffic on a specific TCP port (e.g., HTTP - port 80):
+  tcp.port == 80
+
+- Capture DNS queries for a domain:
+  dns.qry.name == "example.com"
+
+- Capture traffic from a specific source or destination IP address:
+  ip.src == 192.168.1.5  # Source IP address
+  ip.dst == 192.168.1.6  # Destination IP address
+
+
+1. Capture HTTP traffic:
+   http
+
+2. Capture HTTPS traffic (encrypted):
+   tcp.port == 443
+
+3. Capture DNS queries:
+   dns
+
+4. Capture DNS responses:
+   dns.resp
+
+5. Capture TCP traffic with SYN flag (connection initiation):
+   tcp.flags.syn == 1
+
+6. Capture TCP traffic with PSH flag (data transmission):
+   tcp.flags.push == 1
+
+7. Capture TCP traffic with RST flag (reset connection):
+   tcp.flags.reset == 1
+
+8. Capture traffic between specific source and destination IP addresses:
+   ip.src == 192.168.1.1 && ip.dst == 192.168.1.2
+
+9. Capture traffic from a specific source IP address:
+   ip.src == 192.168.1.1
+
+10. Capture traffic for a specific destination port (e.g., HTTP - port 80):
+    tcp.port == 80
+
+11. Capture traffic for a specific source port (e.g., HTTP - port 80):
+    tcp.srcport == 80
+
+12. Capture UDP traffic:
+    udp
+
+13. Capture all traffic to/from a specific IP address:
+    ip.addr == 192.168.1.2
+
+14. Capture DNS queries for a specific domain (e.g., "example.com"):
+    dns.qry.name == "example.com"
+
+15. Capture TCP packets with a sequence number greater than a specific value:
+    tcp.seq > 1000
+
+16. Capture packets with a frame size greater than 1000 bytes:
+    frame.len > 1000
+
+17. Capture traffic on a specific interface (e.g., eth0):
+    interface == "eth0"
+
+18. Capture TCP traffic for a specific range of ports (e.g., 10000-20000):
+    tcp.port >= 10000 && tcp.port <= 20000
+
+19. Capture all HTTP traffic with a specific User-Agent header (e.g., "Mozilla"):
+    http.user_agent contains "Mozilla"
+
+20. Capture traffic for a specific IP address and specific port (e.g., port 443 for HTTPS):
+    ip.addr == 192.168.1.1 && tcp.port == 443
