@@ -1,0 +1,12 @@
+en
+config t
+router ospf 1
+network 192.168.*.* 0.0.0.255 area 0
+network 192.168.*.* 0.0.0.255 area 0
+network 192.168.*.* 0.0.0.255 area 0
+
+redistribute rip subnets
+router rip
+redistribute ospf 1 metric 2
+network 192.168.*.10
+no auto-summary
